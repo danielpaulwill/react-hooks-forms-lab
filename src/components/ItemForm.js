@@ -18,7 +18,7 @@ function ItemForm({ onItemFormSubmit }) {
   }
 
   return (
-    <form className="NewItem">
+    <form className="NewItem" onSubmit={handleSubmit}>
       <label>
         Name:
         <input type="text" name="name" onChange={(e) => setNameInput(e.target.value)} value={nameInput} />
@@ -33,7 +33,7 @@ function ItemForm({ onItemFormSubmit }) {
         </select>
       </label>
 
-      <button type="submit" onClick={handleSubmit}>Add to List</button>
+      <button type="submit">Add to List</button>
     </form>
   );
 }
