@@ -3,11 +3,9 @@ import ItemForm from "./ItemForm";
 import Filter from "./Filter";
 import Item from "./Item";
 
-function ShoppingList({ items }) {
+function ShoppingList({ items, handleItemFormSubmit }) {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchBar, setSearchBar] = useState("");
-
-console.log(items.includes(searchBar))
 
   function handleCategoryChange(event) {
     setSelectedCategory(event.target.value);
@@ -16,22 +14,18 @@ console.log(items.includes(searchBar))
   function handleSearchChange(e) {
     setSearchBar(e.target.value)
   }
+
+  function passToApp(newItem) {
+    handleItemFormSubmit(newItem)
+  }
   
-  // const searchItemsToDisplay = items.filter((item) => {
-  //   item.includes(searchBar)
-  //   return item
-  // })
-  // console.log(searchItemsToDisplay)
-
-  const itemsToDisplay = items.filter((item) => {
-    if (selectedCategory === "All") return true;
-    
-    return item.category === selectedCategory;
-  });
-
+  const itemsToDisplay = items
+    .filter((item) => selectedCategory === "All" || item.category === selectedCategory).filter((item) => item.name.toLowerCase())
+    .filter((item) => item.name.toLowerCase().includes(searchBar.toLowerCase()))
+  
   return (
     <div className="ShoppingList">
-      <ItemForm />
+      <ItemForm onItemFormSubmit={passToApp} />
       <Filter onCategoryChange={handleCategoryChange} search={searchBar} onSearchChange={handleSearchChange}/>
       <ul className="Items">
         {itemsToDisplay.map((item) => (
